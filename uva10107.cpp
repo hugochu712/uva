@@ -2,7 +2,31 @@
 
 #define SWAP(a, b, t) ((t) = (a), (a) = (b), (b) = (t))
 
-#define MAX_HEAP_SIZE 5000
+#define gc readchar
+#define pc putchar_unlocked
+
+inline char readchar() {
+	static char buf[1<<20], *p = buf, *q = buf;
+	if(p == q && (q = (p=buf)+fread(buf,1,1<<20,stdin)) == buf) return EOF;
+	return *p++;
+}
+
+unsigned long int scanInt()
+{
+    register char ch;
+    register unsigned long int x = 0;
+    while ((ch = gc()) >= '0')
+        x = x * 10 + ch - '0';
+    
+    return x;
+}
+
+void printUInt(unsigned long int n) {
+    if (n/10) printUInt(n/10);
+    putchar_unlocked((n%10) + '0');
+}
+
+#define MAX_HEAP_SIZE 100000
 
 long int maxHeap[MAX_HEAP_SIZE];
 long int minHeap[MAX_HEAP_SIZE];
@@ -13,9 +37,9 @@ int main()
 {
     maxHeapSize = 0;
     minHeapSize = 0;
-    scanf("%ld", &medianValue);
-    printf("%ld\n", medianValue);
-    while (scanf("%ld", &value) != EOF)
+    medianValue = scanInt();
+    printUInt(medianValue), pc('\n');
+    while (value = scanInt())
     {
         if (value >= medianValue)
         {
@@ -60,7 +84,7 @@ int main()
                 else break;
             }
 
-            printf("%ld\n", medianValue);
+            printUInt(medianValue), pc('\n');
         }
         else if (maxHeapSize == minHeapSize + 2)
         {
@@ -86,14 +110,14 @@ int main()
                 else break;
             }
 
-            printf("%ld\n", medianValue);
+            printUInt(medianValue), pc('\n');
         }
         else if (maxHeapSize == minHeapSize + 1)
-            printf("%ld\n", (medianValue + maxHeap[1])>>1);
+            printUInt((medianValue + maxHeap[1])>>1), pc('\n');
         else if (minHeapSize == maxHeapSize + 1)
-            printf("%ld\n", (medianValue + minHeap[1])>>1);
+            printUInt((medianValue + minHeap[1])>>1), pc('\n');
         else 
-            printf("%ld\n", medianValue);
+            printUInt(medianValue), pc('\n');
     }
 
     return 0;

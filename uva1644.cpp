@@ -1,5 +1,24 @@
 #include <stdio.h>
 #include <math.h>
+#include <stdbool.h>
+
+#define gc getchar_unlocked
+#define pc putchar_unlocked
+
+unsigned int scanInt()
+{
+    register char ch;
+    register unsigned int x = 0;
+    while ((ch = gc()) >= '0')
+        x = x * 10 + ch - '0';
+    
+    return x;
+}
+
+void printUInt(unsigned int n) {
+    if (n/10) printUInt(n/10);
+    putchar_unlocked((n%10) + '0');
+}
 
 #define SIEVE_LIST_SIZE 1299710
 
@@ -32,17 +51,18 @@ int main()
     SieveOfEratosthenes();
 
     int a, index;
-    while (scanf("%d", &a) && a != 0)
+    while (a = scanInt())
     {
-        if (isprime(a))
-            printf("0\n");
+        if (isprime(a)) 
+            pc('0'), pc('\n');
         else {
             register int i = a>>1;
             register int j = i-1;
             while (GET(i)) i++;
             while (GET(j)) j--;
 
-            printf("%d\n", (i-j) << 1); 
+            printUInt((i-j) << 1);
+            pc('\n');
         }
     }
 
